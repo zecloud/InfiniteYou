@@ -15,5 +15,5 @@ pillow-heif==0.21.0
 sentencepiece==0.2.0
 torch==2.2.1
 torchvision==0.17.1
-transformers==4.45.2
+transformers==4.48.0
 peft==0.14.0
