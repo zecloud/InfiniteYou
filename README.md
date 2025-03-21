@@ -11,9 +11,9 @@
 ByteDance Intelligent Creation
 
 <a href="https://bytedance.github.io/InfiniteYou"><img src="https://img.shields.io/static/v1?label=Project&message=Page&color=blue&logo=github-pages"></a> &ensp;
-<a href="https://arxiv.org/abs/2503.xxxxx"><img src="https://img.shields.io/static/v1?label=Arxiv&message=InfiniteYou&color=darkred&logo=arxiv"></a> &ensp;
-<a href=""><img src="https://img.shields.io/static/v1?label=%F0%9F%93%96%20Paper&message=PDF&color=green"></a> &ensp;
-<a href=""><img src="https://img.shields.io/static/v1?label=%F0%9F%A4%97%20Hugging%20Face&message=Demo&color=orange"></a> &ensp;
+<a href="https://arxiv.org/abs/2503.16418"><img src="https://img.shields.io/static/v1?label=Arxiv&message=InfiniteYou&color=darkred&logo=arxiv"></a> &ensp;
+<a href="https://arxiv.org/pdf/2503.16418"><img src="https://img.shields.io/static/v1?label=%F0%9F%93%96%20Paper&message=PDF&color=green"></a> &ensp;
+<a href="https://huggingface.co/spaces/ByteDance/InfiniteYou-FLUX"><img src="https://img.shields.io/static/v1?label=%F0%9F%A4%97%20Hugging%20Face&message=Demo&color=orange"></a> &ensp;
 
 </div>
 
@@ -24,16 +24,16 @@ ByteDance Intelligent Creation
 
 ## 🔥 News
 
-- [03/2025] 🔥 The [code](https://github.com/bytedance/InfiniteYou), [model](https://huggingface.co/ByteDance/InfiniteYou), and [**demo (available once granted)**]() of InfiniteYou-FLUX v1.0 are released.
+- [03/2025] 🔥 The [code](https://github.com/bytedance/InfiniteYou), [model](https://huggingface.co/ByteDance/InfiniteYou), and [**demo (available once granted)**](https://huggingface.co/spaces/ByteDance/InfiniteYou-FLUX) of InfiniteYou-FLUX v1.0 are released.
 
 - [03/2025] 🔥 The [project page](https://bytedance.github.io/InfiniteYou) of InfiniteYou is created.
 
-- [03/2025] 🔥 The [**paper (available in 2 days)**]() of InfiniteYou is released on arXiv.
+- [03/2025] 🔥 The [paper](https://arxiv.org/abs/2503.16418) of InfiniteYou is released on arXiv.
 
 
 ## 💡 Important Usage Tips
 
-- We released two model variants of InfiniteYou-FLUX v1.0: [aes_stage2](https://huggingface.co/ByteDance/InfiniteYou/tree/main/infu_flux_v1.0/aes_stage2) and [sim_stage1](https://huggingface.co/ByteDance/InfiniteYou/tree/main/infu_flux_v1.0/sim_stage1). The `aes_stage2` is our model after SFT, which is used by default for better text-image alignment and aesthetics. For higher ID similarity, please try `sim_stage1` (using `--model_version` to switch). More details can be found in our [paper]().
+- We released two model variants of InfiniteYou-FLUX v1.0: [aes_stage2](https://huggingface.co/ByteDance/InfiniteYou/tree/main/infu_flux_v1.0/aes_stage2) and [sim_stage1](https://huggingface.co/ByteDance/InfiniteYou/tree/main/infu_flux_v1.0/sim_stage1). The `aes_stage2` is our model after SFT, which is used by default for better text-image alignment and aesthetics. For higher ID similarity, please try `sim_stage1` (using `--model_version` to switch). More details can be found in our [paper](https://arxiv.org/abs/2503.16418).
 
 - To better fit specific personal needs, we find that two arguments are highly useful to adjust: <br />`--infusenet_conditioning_scale` (default: `1.0`) and `--infusenet_guidance_start` (default: `0.0`). Usually, you may NOT need to adjust them. If necessary, start by trying a slightly larger <br />`--infusenet_guidance_start` (*e.g.*, `0.1`) only (especially helpful for `sim_stage1`). If still not satisfactory, then try a slightly smaller `--infusenet_conditioning_scale` (*e.g.*, `0.9`).
 
@@ -105,7 +105,7 @@ python app.py
 ### Online Hugging Face Demo
 
 <!-- We appreciate the GPU grant from the Hugging Face team.  -->
-You can also try our [InfiniteYou-FLUX Hugging Face demo]() online.
+You can also try our [InfiniteYou-FLUX Hugging Face demo](https://huggingface.co/spaces/ByteDance/InfiniteYou-FLUX) online.
 
 
 ## 🆚 Comparison with State-of-the-Art Relevant Methods
@@ -145,7 +145,7 @@ If you find InfiniteYou useful for your research or applications, please cite ou
   title={{InfiniteYou}: Flexible Photo Recrafting While Preserving Your Identity},
   author={Jiang, Liming and Yan, Qing and Jia, Yumin and Liu, Zichuan and Kang, Hao and Lu, Xin},
   journal={arXiv preprint},
-  volume={arXiv:2503.xxxxx},
+  volume={arXiv:2503.16418},
   year={2025}
 }
 ```
