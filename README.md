@@ -24,7 +24,7 @@ ByteDance Intelligent Creation
 
 ## 🔥 News
 
-- [03/2025] 🔥 The [code](https://github.com/bytedance/InfiniteYou), [model](https://huggingface.co/ByteDance/InfiniteYou), and [**demo (available once granted)**](https://huggingface.co/spaces/ByteDance/InfiniteYou-FLUX) of InfiniteYou-FLUX v1.0 are released.
+- [03/2025] 🔥 The [code](https://github.com/bytedance/InfiniteYou), [model](https://huggingface.co/ByteDance/InfiniteYou), and [demo](https://huggingface.co/spaces/ByteDance/InfiniteYou-FLUX) of InfiniteYou-FLUX v1.0 are released.
 
 - [03/2025] 🔥 The [project page](https://bytedance.github.io/InfiniteYou) of InfiniteYou is created.
 
@@ -104,7 +104,7 @@ python app.py
 
 ### Online Hugging Face Demo
 
-<!-- We appreciate the GPU grant from the Hugging Face team.  -->
+We appreciate the GPU grant from the Hugging Face team. 
 You can also try our [InfiniteYou-FLUX Hugging Face demo](https://huggingface.co/spaces/ByteDance/InfiniteYou-FLUX) online.
 
 
