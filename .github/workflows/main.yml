@@ -1,0 +1,34 @@
+name: Docker hd app Image CI
+
+on:
+  #push:
+  #  branches: [ "main" ]
+  #pull_request:
+  #  branches: [ "main" ]
+  workflow_dispatch:
+    
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Azure Container Registry Login
+      uses: Azure/docker-login@v1
+      with:
+        # Container registry username
+        username:  ${{ secrets.ACR_USER }} 
+        # Container registry password
+        password:  ${{ secrets.ACR_PASSWORD }} 
+        # Container registry server url
+        login-server: ${{ secrets.ACR_SERVER }}
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ secrets.ACR_REPO }}.azurecr.io/infiniteyouapp:v1  --output=type=registry,registry=${{ secrets.ACR_REPO }}.azurecr.io/infiniteyouapp:v1
+    - name: Push the Docker image
+      run: docker push ${{ secrets.ACR_REPO }}.azurecr.io/infiniteyouapp:v1
+    
+
+  
