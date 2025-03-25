@@ -1,5 +1,6 @@
 import json
 import os
+import tempfile
 import random
 from io import BytesIO
 from cachetools import cached
@@ -12,7 +13,8 @@ import logging
 from azure.storage.blob import BlobServiceClient
 from azure.identity import DefaultAzureCredential
 import traceback
-import torch
+from PIL import Image
+#import torch
 from huggingface_hub import snapshot_download
 from pillow_heif import register_heif_opener
 
@@ -22,7 +24,7 @@ logging.basicConfig(level = logging.INFO)
 app = App()
 ACCOUNT_NAME = os.getenv("ACCOUNT_NAME", "fluxstorageaca")
 account_url="https://"+ACCOUNT_NAME+".blob.core.windows.net"
-CONTAINER_NAME = os.getenv("CONTAINER_NAME","ltxavatarjob")
+CONTAINER_NAME = os.getenv("CONTAINER_NAME","narratorfluxjob")
 
 # Register HEIF support for Pillow
 register_heif_opener()
@@ -68,8 +70,18 @@ def genimg(params):
     idsave=params["idsave"]
     width=params.get("width",1280)
     height=params.get("height",720)
-    data_bytes=runstabledif(pipeline,prompt,width,height)
-    publish_and_save(data_bytes,folder,idsave)
+    idimg = params.get("idimg",None)
+    if idimg:
+        imgremotefilepath=folder+"/"+idimg+".png"
+        resp=azuredownload(imgremotefilepath)
+        avat=resp
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmpfileimg:
+                    tmpfileimg.write(avat)
+                    tmpfileimg.flush()
+                    pilimg=Image.open(tmpfileimg.name)
+                    pilimg=pilimg.convert("RGB")
+                    data_bytes=runstabledif(pipeline,prompt,width,height)
+                    publish_and_save(data_bytes,folder,idsave)
 
 def runstabledif(pipeline,prompt,width,height,input_image,guidance_scale=7.5,num_steps=16,infusenet_conditioning_scale=1.0,infusenet_guidance_start=0.0,infusenet_guidance_end=1.0,seed=None):
     if(not seed):
@@ -103,6 +115,14 @@ def azureupload(pathfile,data):
     blob_service_client = BlobServiceClient(account_url=account_url, credential=credential)
     blob_client = blob_service_client.get_blob_client(container=CONTAINER_NAME, blob=pathfile)
     blob_client.upload_blob(data)
+
+def azuredownload(pathfile):
+    credential = DefaultAzureCredential()
+    blob_service_client = BlobServiceClient(account_url=account_url, credential=credential)
+    blob_client = blob_service_client.get_blob_client(container=CONTAINER_NAME, blob=pathfile)
+    download_stream=blob_client.download_blob()
+    data=download_stream.readall()
+    return data
 
 def publish_and_save(img,folder,idsave):
     # Create a Dapr gRPC client
