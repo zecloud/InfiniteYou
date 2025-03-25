@@ -52,11 +52,19 @@ ByteDance Intelligent Creation
 
 ## 🔧 Requirements and Installation
 
+### Dependencies
+
 Simply run this one-line command to install (feel free to create a `python3` virtual environment before you run):
 
 ```bash
 pip install -r requirements.txt
 ```
+
+### Memory Requirements
+
+Please note that the current full-performance `bf16` model inference requires a **peak VRAM** of around **43GB**. **We are trying to reduce memory usage and will post an update soon.** Community contributions are welcome.
+
+If you want to use our models ASAP but do not have a GPU with sufficient VRAM, please follow [Diffusers memory reduction tips](https://huggingface.co/docs/diffusers/en/optimization/memory) first, where some offloading strategies may be helpful.
 
 
 ## ⚡️ Quick Inference
