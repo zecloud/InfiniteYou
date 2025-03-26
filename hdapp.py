@@ -17,6 +17,7 @@ from PIL import Image
 #import torch
 from huggingface_hub import snapshot_download
 from pillow_heif import register_heif_opener
+from torch import cond
 
 from pipelines.pipeline_infu_flux import InfUFluxPipeline
 
@@ -71,7 +72,14 @@ def genimg(params):
     width=params.get("width",1280)
     height=params.get("height",720)
     idimg = params.get("idimg",None)
-    idmodel= params.get("idmodel","enhanceaiteam/Mystic")
+    idmodel= params.get("idmodel","Shakker-Labs/AWPortrait-FL")
+    nbsteps=params.get("nbsteps",24)
+    guidance_scale=params.get("guidance_scale",3.5)
+    #condition_scale=params.get("condition_scale",1.0)
+    infusenet_conditioning_scale=params.get("infusenet_conditioning_scale",1.0)
+    infusenet_guidance_start=params.get("infusenet_guidance_start",0.0)
+    infusenet_guidance_end=params.get("infusenet_guidance_end",1.0)
+    seed=params.get("seed",None)
     pipeline=initstabledif(idmodel)
     if idimg:
         imgremotefilepath=folder+"/"+idimg+".png"
@@ -82,10 +90,12 @@ def genimg(params):
                     tmpfileimg.flush()
                     pilimg=Image.open(tmpfileimg.name)
                     pilimg=pilimg.convert("RGB")
-                    data_bytes=runstabledif(pipeline,prompt,width,height,pilimg)
+                    data_bytes=runstabledif(pipeline,prompt,width,height,pilimg,num_steps=nbsteps,guidance_scale=guidance_scale,
+                                            infusenet_conditioning_scale=infusenet_conditioning_scale,
+                                            infusenet_guidance_start=infusenet_guidance_start,infusenet_guidance_end=infusenet_guidance_end,seed=seed)
                     publish_and_save(data_bytes,folder,idsave)
 
-def runstabledif(pipeline,prompt,width,height,input_image,guidance_scale=7.5,num_steps=16,infusenet_conditioning_scale=1.0,infusenet_guidance_start=0.0,infusenet_guidance_end=1.0,seed=None):
+def runstabledif(pipeline,prompt,width,height,input_image,guidance_scale=3.5,num_steps=24,infusenet_conditioning_scale=1.0,infusenet_guidance_start=0.0,infusenet_guidance_end=1.0,seed=None):
     if(not seed):
         seed = random.randint(0, 2 ** 32 - 1)
 
