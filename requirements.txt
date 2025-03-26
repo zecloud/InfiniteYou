@@ -1,5 +1,5 @@
 #accelerate
-#diffusers
+diffusers==0.31.0
 facexlib
 #httpcore==1.0.7
 #httpx==0.28.1
