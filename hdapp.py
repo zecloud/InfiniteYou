@@ -35,24 +35,25 @@ class ModelVersion:
 
     DEFAULT_VERSION = STAGE_1
 
-def dlmodels():
+def dlmodels(idmodel="enhanceaiteam/Mystic"):
     
     try:
         snapshot_download(repo_id='ByteDance/InfiniteYou', local_dir='./models/InfiniteYou', local_dir_use_symlinks=False)
-    
-        snapshot_download(repo_id='enhanceaiteam/Mystic', local_dir='./models/Mystic', local_dir_use_symlinks=False)
+        localdiridmodel=idmodel.split("/")[1]
+        snapshot_download(repo_id=idmodel, local_dir='./models/'+localdiridmodel, local_dir_use_symlinks=False)
     except Exception as e:
         logging.error(f"Error downloading: {e}")
         logging.error("Traceback info:\n%s", traceback.format_exc())
         print(e)
        
 @cached(cache={})
-def initstabledif(model_version=ModelVersion.DEFAULT_VERSION):    
-    dlmodels()
+def initstabledif(idmodel,model_version=ModelVersion.DEFAULT_VERSION):    
+    dlmodels(idmodel)
     model_path = f'./models/InfiniteYou/infu_flux_v1.0/{model_version}'
     print(f'loading model from {model_path}')
+    localdiridmodel=idmodel.split("/")[1]
     pipeline = InfUFluxPipeline(
-            base_model_path='./models/Mystic',
+            base_model_path='./models/'+localdiridmodel,
             infu_model_path=model_path,
             insightface_root_path='./models/InfiniteYou/supports/insightface',
             image_proj_num_tokens=8,
@@ -64,13 +65,14 @@ def initstabledif(model_version=ModelVersion.DEFAULT_VERSION):
 
 
 def genimg(params):
-    pipeline=initstabledif()
     prompt=params["prompt"]
     folder=params["folder"]
     idsave=params["idsave"]
     width=params.get("width",1280)
     height=params.get("height",720)
     idimg = params.get("idimg",None)
+    idmodel= params.get("idmodel","enhanceaiteam/Mystic")
+    pipeline=initstabledif(idmodel)
     if idimg:
         imgremotefilepath=folder+"/"+idimg+".png"
         resp=azuredownload(imgremotefilepath)
