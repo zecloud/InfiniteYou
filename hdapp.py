@@ -80,7 +80,7 @@ def genimg(params):
                     tmpfileimg.flush()
                     pilimg=Image.open(tmpfileimg.name)
                     pilimg=pilimg.convert("RGB")
-                    data_bytes=runstabledif(pipeline,prompt,width,height)
+                    data_bytes=runstabledif(pipeline,prompt,width,height,pilimg)
                     publish_and_save(data_bytes,folder,idsave)
 
 def runstabledif(pipeline,prompt,width,height,input_image,guidance_scale=7.5,num_steps=16,infusenet_conditioning_scale=1.0,infusenet_guidance_start=0.0,infusenet_guidance_end=1.0,seed=None):
